@@ -27,6 +27,13 @@
 *.lib
 
 # Executables
-*.exe
 *.out
 *.app
+
+/.vs
+/x64
+/RecursiveHorse/x64
+/enc_temp_folder
+*.sd
+*.si
+*.cfg
