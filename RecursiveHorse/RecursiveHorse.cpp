@@ -21,104 +21,48 @@ void print(std::vector<std::vector<cell>> bord) {
 	}
 }
 
-if (i == 0) {
-	if (j == 0) {
-		bord[0][0].next_cells.push_back(&bord[1][2]);
-		bord[0][0].next_cells.push_back(&bord[2][1]);
-	}
-	else if (j == bord[i].size() - 1) {
-		bord[0][j].next_cells.push_back(&bord[1][j - 2]);
-		bord[0][j].next_cells.push_back(&bord[2][j - 1]);
-	}
-	else if (j == 1) {
-		bord[0][1].next_cells.push_back(&bord[1][3]);
-		bord[0][1].next_cells.push_back(&bord[2][0]);
-		bord[0][1].next_cells.push_back(&bord[2][2]);
-	}
-	else if (j == bord[i].size() - 2) {
-		bord[0][j].next_cells.push_back(&bord[1][j - 2]);
-		bord[0][j].next_cells.push_back(&bord[2][j - 1]);
-		bord[0][j].next_cells.push_back(&bord[2][j + 1]);
-	}
-	else {
-		bord[i][j].next_cells.push_back(&bord[i + 1][j - 2]);
-		bord[i][j].next_cells.push_back(&bord[i + 1][j + 2]);
-		bord[i][j].next_cells.push_back(&bord[i + 2][j - 1]);
-		bord[i][j].next_cells.push_back(&bord[i + 2][j + 1]);
-	}
-}
-else if (j == 0) {
-	if (i == bord.size() - 1) {
-		bord[i][0].next_cells.push_back(&bord[i - 2][1]);
-		bord[i][0].next_cells.push_back(&bord[i - 1][2]);
-	}
-	else if (i == 1) {
-		bord[1][0].next_cells.push_back(&bord[0][2]);
-		bord[1][0].next_cells.push_back(&bord[2][2]);
-		bord[1][0].next_cells.push_back(&bord[3][1]);
-	}
-	else if (i == bord.size() - 2) {
-		bord[i][0].next_cells.push_back(&bord[i - 2][1]);
-		bord[i][0].next_cells.push_back(&bord[i - 1][2]);
-		bord[i][0].next_cells.push_back(&bord[i + 1][2]);
-	}
-	else {
-		bord[i][j].next_cells.push_back(&bord[i - 2][j + 1]);
-		bord[i][j].next_cells.push_back(&bord[i - 1][j + 2]);
-		bord[i][j].next_cells.push_back(&bord[i + 1][j + 2]);
-		bord[i][j].next_cells.push_back(&bord[i + 2][j + 1]);
-	}
-}
-else if (i == bord.size() - 1) {
-	if (j == bord[i].size() - 1) {
-		bord[i][j].next_cells.push_back(&bord[i - 2][j - 1]);
-		bord[i][j].next_cells.push_back(&bord[i - 1][j - 2]);
-	}
-	else if (j == 1) {
-		bord[i][1].next_cells.push_back(&bord[i - 2][0]);
-		bord[i][1].next_cells.push_back(&bord[i - 2][2]);
-		bord[i][1].next_cells.push_back(&bord[i - 1][3]);
-	}
-	else if (j == bord[i].size() - 2) {
-		bord[i][j].next_cells.push_back(&bord[i - 2][j - 1]);
-		bord[i][j].next_cells.push_back(&bord[i - 2][j + 1]);
-		bord[i][j].next_cells.push_back(&bord[i - 1][j - 2]);
-	}
-	else {
-		bord[i][j].next_cells.push_back(&bord[i - 1][j - 2]);
-		bord[i][j].next_cells.push_back(&bord[i - 2][j - 1]);
-		bord[i][j].next_cells.push_back(&bord[i - 2][j + 1]);
-		bord[i][j].next_cells.push_back(&bord[i - 1][j + 2]);
-	}
-}
-else if (j == bord[i].size() - 1) {
-	if (i == 1) {
-		bord[1][j].next_cells.push_back(&bord[0][j - 2]);
-		bord[1][j].next_cells.push_back(&bord[2][j - 2]);
-		bord[1][j].next_cells.push_back(&bord[3][j - 1]);
-	}
-	if (i == bord.size() - 2) {
-		bord[i][j].next_cells.push_back(&bord[i - 2][j - 1]);
-		bord[i][j].next_cells.push_back(&bord[i - 1][j - 2]);
-		bord[i][j].next_cells.push_back(&bord[i + 1][j - 2]);
-	}
-	else {
-		bord[i][j].next_cells.push_back(&bord[i - 2][j - 1]);
-		bord[i][j].next_cells.push_back(&bord[i - 1][j - 2]);
-		bord[i][j].next_cells.push_back(&bord[i + 1][j - 2]);
-		bord[i][j].next_cells.push_back(&bord[i + 2][j - 1]);
-	}
-}
-
 int main()
 {
-	std::vector<std::vector<cell>> bord{8, std::vector<cell>{8}};
-
+	const int height = 8;
+	const int width = 8;
+	std::vector<std::vector<cell>> bord{height, std::vector<cell>{width}};
 	for (int i = 0; i < bord.size(); i++)
 	{
 		for (int j = 0; j < bord[i].size(); j++)
 		{
-
+			int _i = i, _j = j;
+			_i -= 2, _j += 1;
+			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
+				bord[i][j].next_cells.push_back(&bord[_i][_j]);
+			}
+			_i += 1, _j += 1;
+			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
+				bord[i][j].next_cells.push_back(&bord[_i][_j]);
+			}
+			_i += 2, _j += 0;
+			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
+				bord[i][j].next_cells.push_back(&bord[_i][_j]);
+			}
+			_i += 1, _j -= 1;
+			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
+				bord[i][j].next_cells.push_back(&bord[_i][_j]);
+			}
+			_i += 0, _j -= 2;
+			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
+				bord[i][j].next_cells.push_back(&bord[_i][_j]);
+			}
+			_i -= 1, _j -= 1;
+			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
+				bord[i][j].next_cells.push_back(&bord[_i][_j]);
+			}
+			_i -= 2, _j += 0;
+			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
+				bord[i][j].next_cells.push_back(&bord[_i][_j]);
+			}
+			_i -= 1, _j += 1;
+			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
+				bord[i][j].next_cells.push_back(&bord[_i][_j]);
+			}
 		}
 	}
 }
