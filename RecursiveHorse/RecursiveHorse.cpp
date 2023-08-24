@@ -4,12 +4,12 @@ class Cell {
 
 public:
 	std::vector<Cell*> next_cells;
-	std::vector<std::pair<int, int>> points;
+	std::pair<int,int> cordenats;
+	int priority = 8;
 	bool was_be = false;
 	Cell()
 	{
-		next_cells.reserve(8);
-		points.reserve(8);
+		
 	}
 };
 
@@ -54,70 +54,67 @@ int main()
 {
 	const int height = 8;
 	const int width = 8;
-	int transition = 0;
 	std::vector<std::vector<Cell>> bord(height, std::vector<Cell>(width));
 	for (int i = 0; i < bord.size(); ++i)
 	{
 		for (int j = 0; j < bord[i].size(); j++)
 		{
+			bord[i][j].cordenats = std::pair<int, int>(i, j);
 			int _i = i, _j = j;
 			_i -= 2, _j += 1;
 			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
 				bord[i][j].next_cells.push_back(&bord[_i][_j]);
-				bord[i][j].points.emplace_back(_i, _j);
-				transition++;
+				bord[i][j].priority -= 1;
 			}
 			_i += 1, _j += 1;
 			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
 				bord[i][j].next_cells.push_back(&bord[_i][_j]);
-				bord[i][j].points.emplace_back(_i, _j);
-				transition++;
+				bord[i][j].priority -= 1;
 			}
 			_i += 2, _j += 0;
 			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
 				bord[i][j].next_cells.push_back(&bord[_i][_j]);
-				bord[i][j].points.emplace_back(_i, _j);
-				transition++;
+				bord[i][j].priority -= 1;
 			}
 			_i += 1, _j -= 1;
 			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
 				bord[i][j].next_cells.push_back(&bord[_i][_j]);
-				bord[i][j].points.emplace_back(_i, _j);
-				transition++;
+				bord[i][j].priority -= 1;
 			}
 			_i += 0, _j -= 2;
 			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
 				bord[i][j].next_cells.push_back(&bord[_i][_j]);
-				bord[i][j].points.emplace_back(_i, _j);
-				transition++;
+				bord[i][j].priority -= 1;
 			}
 			_i -= 1, _j -= 1;
 			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
 				bord[i][j].next_cells.push_back(&bord[_i][_j]);
-				bord[i][j].points.emplace_back(_i, _j);
-				transition++;
+				bord[i][j].priority -= 1;
 			}
 			_i -= 2, _j += 0;
 			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
 				bord[i][j].next_cells.push_back(&bord[_i][_j]);
-				bord[i][j].points.emplace_back(_i, _j);
-				transition++;
+				bord[i][j].priority -= 1;
 			}
 			_i -= 1, _j += 1;
 			if (_i >= 0 && _i < height && _j >= 0 && _j < width) {
 				bord[i][j].next_cells.push_back(&bord[_i][_j]);
-				bord[i][j].points.emplace_back(_i, _j);
-				transition++;
+				bord[i][j].priority -= 1;
 			}
 		}
 	}
-	std::cout << transition << '\n';
+	/*for (int i = 0; i < bord.size(); ++i)
+	{
+		for (int j = 0; j < bord[i].size(); j++) {
+			std::cout << bord[i][j].priority << " ";
+		}
+		std::cout << '\n';
+	}*/
 	std::list<std::pair<int, int>> points;
-	points.emplace_front(0, 0);
 	hors(bord[0][0], 0, points, height * width-1);
-	std::cout << points.size() << '\n';
+	/*std::cout << points.size() << '\n';
 	for (auto& i : points)
 	{
 		std::cout << i.first << ' ' << i.second << '\n';
-	}
+	}*/
 }
