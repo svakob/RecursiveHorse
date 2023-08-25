@@ -13,45 +13,72 @@ public:
 	}
 };
 
-bool hors(Cell& cell, int it, std::list<std::pair<int, int>>& points, int size) {
-	cell.was_be = true;
-	if (it == size) {
-		return true;
-	}
-	int i = 0;
-	while (true)
-	{
-		for (; i < cell.next_cells.size(); ++i) {
-			if (!cell.next_cells[i]->was_be)
-			{
-				break;
-			}
-		}
-		if (i == cell.next_cells.size())
-		{
-			i = -1;
-		}
-		if (i != -1) {
-			if (hors(*cell.next_cells[i], it + 1, points, size)) {
-				points.push_front(cell.points[i]);
-				return true;
-			}
-			else
-			{
-				++i;
-				continue;
-			}
+void Update(Cell& cell){
+	for (auto& i : cell.next_cells) {
+		if (i->was_be) {
+			i->priority = 9;
 		}
 		else
 		{
+			i->priority = 8;
+			i->priority -= std::count_if(i->next_cells.begin(), i->next_cells.end(), [](Cell* cell) {return !(*cell).was_be; });
+		}
+	}
+}
+
+void Print(std::vector<std::vector<Cell>> & bord) {
+	for (int i = 0; i < bord.size(); ++i)
+	{
+		for (int j = 0; j < bord[i].size(); j++) {
+			if (bord[i][j].priority == 9) {
+				std::cout << "x" << " ";
+			}
+			else
+			{
+				std::cout << bord[i][j].priority << " ";
+			}
+		}
+		std::cout << '\n';
+	}
+}
+
+bool hors(Cell& cell, int it, int size) {
+	cell.was_be = true;
+	Update(cell);
+	if (it == size) {
+		return true;
+	}
+	Cell* last_cell;
+	int it0 = 0;
+	std::list<Cell*> queue;
+	for (int last_priority = 8; last_priority >= 0; last_priority--) {
+		for (auto i : cell.next_cells) {
+			if (i->priority == last_priority)
+			{
+				queue.push_back(i);
+			}
+		}
+	}
+	while (true) {
+		if (it0 == queue.size()) {
 			cell.was_be = false;
 			return false;
+		}
+		if (hors(*queue.front(), it + 1, size)) {
+			return true;
+		}
+		else
+		{
+			it0 += 1;
+			continue;
 		}
 	}
 }
 
 int main()
 {
+	std::list<std::pair<int, int>> points;
+
 	const int height = 8;
 	const int width = 8;
 	std::vector<std::vector<Cell>> bord(height, std::vector<Cell>(width));
@@ -103,18 +130,6 @@ int main()
 			}
 		}
 	}
-	/*for (int i = 0; i < bord.size(); ++i)
-	{
-		for (int j = 0; j < bord[i].size(); j++) {
-			std::cout << bord[i][j].priority << " ";
-		}
-		std::cout << '\n';
-	}*/
-	std::list<std::pair<int, int>> points;
-	hors(bord[0][0], 0, points, height * width-1);
-	/*std::cout << points.size() << '\n';
-	for (auto& i : points)
-	{
-		std::cout << i.first << ' ' << i.second << '\n';
-	}*/
+	Print(bord);
+	hors(bord[1][0], 0, height * width-1);
 }
