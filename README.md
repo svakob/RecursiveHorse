@@ -1,44 +1,25 @@
-# Horse Traversal Algorithm
 
-This program implements the horse traversal algorithm to find a path covering all cells of a given chessboard using knight moves. The program is written in C++.
+# Horse Movement Puzzle Solver
 
-## Algorithm Overview
+This is a C++ program that solves a horse movement puzzle on an 8x8 board. The puzzle involves finding a sequence of moves for a horse piece on a chessboard such that it visits every square exactly once.
 
-The program uses a recursive function called `hors` to perform the horse traversal. The algorithm starts from a specified cell (0,0) on an 8x8 chessboard and attempts to visit all cells on the board.
+## How it works
 
-The `Cell` class represents a cell on the chessboard and contains the following members:
-- `next_cells`: A vector of pointers to the neighboring cells that can be reached from the current cell using knight moves.
-- `points`: A vector of pairs representing the coordinates of the neighboring cells.
-- `was_be`: A boolean flag indicating whether the cell has been visited.
+The program uses a depth-first search algorithm to explore all possible moves of the horse piece. It starts from a given position on the board and recursively explores all possible next moves until it either finds a solution or exhausts all possibilities.
 
-The `hors` function recursively explores the neighboring cells of a given cell in a depth-first manner. It marks the current cell as visited and continues to the next unvisited cell until all cells have been visited. If a valid path is found, the coordinates of the cells are stored in a list called `points`.
+The `Cell` class represents a square on the board and stores information such as its coordinates, priority, and a list of neighboring cells. The `Update` function updates the priorities of the neighboring cells based on whether they have been visited or not.
 
-## Program Execution
+The `Print` function displays the current state of the board, where cells with a priority of 9 are marked as 'x' and other cells display their priority value.
 
-The main function initializes an 8x8 chessboard represented by a vector of vectors of `Cell` objects. It sets up the connections between neighboring cells by populating the `next_cells` and `points` vectors of each cell.
-
-The program then calls the `hors` function to find a valid path covering all cells. If a path is found, the coordinates of the cells are printed to the console.
+The `hors` function implements the depth-first search algorithm. It marks the current cell as visited, updates the priorities of neighboring cells, and recursively calls itself for each unvisited neighboring cell. If a solution is found, it returns true. Otherwise, it backtracks and tries the next unvisited neighboring cell.
 
 ## Usage
 
-To use this program, you need to compile and run it in a C++ compiler. After execution, the program will display the total number of transitions and the number of cells visited in the path. It will then print the coordinates of the visited cells.
+1. Compile the program using a C++ compiler.
+2. Run the compiled executable.
+3. The program will display the initial state of the board, marked as '8' for each cell.
+4. After finding a solution, the program will display the final state of the board, marked as 'x' for each visited cell.
 
-Make sure to include the necessary headers and ensure that the C++ compiler supports the required features used in the program.
+Feel free to modify the code to solve different variations of the horse movement puzzle or adapt it for other board sizes.
 
-```cpp
-#include "pch.h"
-
-class Cell {
-	// Cell class definition
-};
-
-bool hors(Cell& cell, int it, std::list<std::pair<int, int>>& points, int size) {
-	// hors function definition
-}
-
-int main() {
-	// Main function implementation
-}
-```
-
-**Note:** The code provided here is just a snippet, and you need to provide the missing parts such as headers, function definitions, and any additional code required to compile and run the program successfully.
+Happy puzzling!
