@@ -40,11 +40,13 @@ void Print(std::vector<std::vector<Cell>> & bord) {
 		}
 		std::cout << '\n';
 	}
+	std::cout << '\n';
 }
 
-bool hors(Cell& cell, int it, int size) {
+bool hors(Cell& cell, int it, int size, std::vector<std::vector<Cell>> & bord) {
 	cell.was_be = true;
 	Update(cell);
+	/*Print(bord);*/
 	if (it == size) {
 		return true;
 	}
@@ -64,7 +66,7 @@ bool hors(Cell& cell, int it, int size) {
 			cell.was_be = false;
 			return false;
 		}
-		if (hors(*queue.front(), it + 1, size)) {
+		if (hors(*queue.front(), it + 1, size, bord)) {
 			return true;
 		}
 		else
@@ -74,11 +76,9 @@ bool hors(Cell& cell, int it, int size) {
 		}
 	}
 }
-
 int main()
 {
 	std::list<std::pair<int, int>> points;
-
 	const int height = 8;
 	const int width = 8;
 	std::vector<std::vector<Cell>> bord(height, std::vector<Cell>(width));
@@ -131,5 +131,6 @@ int main()
 		}
 	}
 	Print(bord);
-	hors(bord[1][0], 0, height * width-1);
+	hors(bord[0][0], 0, height * width-1, bord);
+	Print(bord);
 }
